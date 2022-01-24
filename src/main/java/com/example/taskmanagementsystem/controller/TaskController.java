@@ -2,10 +2,14 @@ package com.example.taskmanagementsystem.controller;
 
 
 import com.example.taskmanagementsystem.Model.Dto.TaskDto;
+import com.example.taskmanagementsystem.Model.Exception.MissedFieldException;
+import com.example.taskmanagementsystem.Model.Exception.NotExist;
 import com.example.taskmanagementsystem.entity.Task;
 import com.example.taskmanagementsystem.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,13 +29,28 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public List<Task> getTasks(){
-        return taskService.getTasks();
+    public ResponseEntity<List<Task> > getTasks(){
+        try {
+            return new ResponseEntity<>(taskService.getTasks(), HttpStatus.ACCEPTED); // status code!!
+        } catch (NotExist e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT); // status code!!
+        }
     }
 
+
     @PostMapping("/task")
-    public void addTask(@RequestBody TaskDto task){
-        System.out.println(task);
-        taskService.addTask(task);
+    public ResponseEntity<String> addTask(@RequestBody TaskDto task){
+        try {
+            taskService.addTask(task);
+            return new ResponseEntity<>("Task added successfully", HttpStatus.ACCEPTED); // status code!!
+        } catch (MissedFieldException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Enter task name and user id", HttpStatus.CONFLICT); // status code!!
+        } catch (NotExist e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("User with this id doesn't exist", HttpStatus.NO_CONTENT); // status code!!
+        }
     }
+
 }
