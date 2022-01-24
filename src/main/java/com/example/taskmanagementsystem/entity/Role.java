@@ -34,7 +34,7 @@ public class Role {
     private Boolean taskDeletePerm;
     /** end of Permissions */
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "role")
     @JsonIgnore
     private List<User> users;
 

@@ -1,7 +1,6 @@
 package com.example.taskmanagementsystem.controller;
 
-import com.example.taskmanagementsystem.Model.UserDto;
-import com.example.taskmanagementsystem.entity.Task;
+import com.example.taskmanagementsystem.Model.Dto.UserDto;
 import com.example.taskmanagementsystem.entity.User;
 import com.example.taskmanagementsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;

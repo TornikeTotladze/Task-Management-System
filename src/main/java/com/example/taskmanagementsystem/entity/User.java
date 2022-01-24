@@ -22,7 +22,7 @@ public class User {
     @Column(name = "user_name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "currentUser")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "currentUser")
     @JsonIgnore
     private List<Task> tasks;
 

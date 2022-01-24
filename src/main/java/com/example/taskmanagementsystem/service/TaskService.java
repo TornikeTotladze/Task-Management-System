@@ -1,6 +1,6 @@
 package com.example.taskmanagementsystem.service;
 
-import com.example.taskmanagementsystem.Model.TaskDto;
+import com.example.taskmanagementsystem.Model.Dto.TaskDto;
 import com.example.taskmanagementsystem.entity.Task;
 import com.example.taskmanagementsystem.entity.User;
 import com.example.taskmanagementsystem.repository.TaskRepository;

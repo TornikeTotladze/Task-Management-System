@@ -1,4 +1,4 @@
-package com.example.taskmanagementsystem.Model;
+package com.example.taskmanagementsystem.Model.Dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,15 +1,14 @@
 package com.example.taskmanagementsystem.controller;
 
+import com.example.taskmanagementsystem.Model.Exception.AlreadyExistsException;
+import com.example.taskmanagementsystem.Model.Exception.NotExist;
 import com.example.taskmanagementsystem.entity.Role;
 import com.example.taskmanagementsystem.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,15 +24,34 @@ public class RoleController {
     }
 
     @GetMapping("/roles")
-    public List<Role> getRoles(){
-        return roleService.getRoles();
+    public ResponseEntity<List<Role> > getRoles(){
+        try {
+            return new ResponseEntity<>(roleService.getRoles(), HttpStatus.ACCEPTED);
+        } catch (NotExist e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
     }
 
     @PostMapping("/role")
     public ResponseEntity<String> addRole(@RequestBody Role role){
-        if(roleService.addRole(role)){
+        try {
+            roleService.addRole(role);
             return new ResponseEntity<>("Role saved successfully!", HttpStatus.ACCEPTED);
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Role with this name already exists", HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>("Role with this name already exists", HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("/remove-role/{id}")
+    public ResponseEntity<String> removeRole(@PathVariable Long id){
+        try {
+            roleService.removeRole(id);
+            return new ResponseEntity<>("Removed successfully", HttpStatus.ACCEPTED);
+        } catch (NotExist e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("No role with this id", HttpStatus.NO_CONTENT);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.example.taskmanagementsystem.service;
 
-import com.example.taskmanagementsystem.Model.UserDto;
+import com.example.taskmanagementsystem.Model.Dto.UserDto;
 import com.example.taskmanagementsystem.entity.Role;
 import com.example.taskmanagementsystem.entity.User;
 import com.example.taskmanagementsystem.repository.RoleRepository;
