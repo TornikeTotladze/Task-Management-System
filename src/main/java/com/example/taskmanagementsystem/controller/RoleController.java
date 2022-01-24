@@ -1,6 +1,7 @@
 package com.example.taskmanagementsystem.controller;
 
 import com.example.taskmanagementsystem.Model.Exception.AlreadyExistsException;
+import com.example.taskmanagementsystem.Model.Exception.MissedFieldException;
 import com.example.taskmanagementsystem.Model.Exception.NotExist;
 import com.example.taskmanagementsystem.entity.Role;
 import com.example.taskmanagementsystem.service.RoleService;
@@ -26,10 +27,10 @@ public class RoleController {
     @GetMapping("/roles")
     public ResponseEntity<List<Role> > getRoles(){
         try {
-            return new ResponseEntity<>(roleService.getRoles(), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(roleService.getRoles(), HttpStatus.ACCEPTED);// statusCode!!
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);// statusCode!!
         }
     }
 
@@ -37,10 +38,13 @@ public class RoleController {
     public ResponseEntity<String> addRole(@RequestBody Role role){
         try {
             roleService.addRole(role);
-            return new ResponseEntity<>("Role saved successfully!", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Role saved successfully!", HttpStatus.ACCEPTED); // statusCode!!
+        } catch (MissedFieldException e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Enter role name", HttpStatus.CONFLICT); // statusCode!!
         } catch (AlreadyExistsException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Role with this name already exists", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Role with this name already exists", HttpStatus.CONFLICT); // statusCode!!
         }
     }
 
@@ -48,10 +52,10 @@ public class RoleController {
     public ResponseEntity<String> removeRole(@PathVariable Long id){
         try {
             roleService.removeRole(id);
-            return new ResponseEntity<>("Removed successfully", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Removed successfully", HttpStatus.ACCEPTED);// statusCode!!
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>("No role with this id", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("No role with this id", HttpStatus.NO_CONTENT);// statusCode!!
         }
     }
 }

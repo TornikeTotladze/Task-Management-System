@@ -1,6 +1,7 @@
 package com.example.taskmanagementsystem.service;
 
 import com.example.taskmanagementsystem.Model.Exception.AlreadyExistsException;
+import com.example.taskmanagementsystem.Model.Exception.MissedFieldException;
 import com.example.taskmanagementsystem.Model.Exception.NotExist;
 import com.example.taskmanagementsystem.entity.Role;
 import com.example.taskmanagementsystem.repository.RoleRepository;
@@ -27,7 +28,10 @@ public class RoleService {
         return result;
     }
 
-    public void addRole(Role role) throws AlreadyExistsException {
+    public void addRole(Role role) throws MissedFieldException, AlreadyExistsException {
+        if(role.getRoleName() == null){
+            throw new MissedFieldException("Specify role name");
+        }
         if(roleRepository.existsByRoleName(role.getRoleName())){
             throw  new AlreadyExistsException("Role with this name already exists");
         }
