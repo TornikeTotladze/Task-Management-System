@@ -76,4 +76,20 @@ public class TaskService {
         }
     }
 
+    public void deleteTask(Long taskId, Long userId) throws MissedFieldException, NotHavePermission, NotExist {
+        if (taskId == null || userId == null) {
+            throw new MissedFieldException("ids must not be null");
+        }
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User with this id doesn't exist");
+        }
+        if (!userRepository.userCanDeleteTasks(userId)) {
+            throw new NotHavePermission("User can't delete tasks");
+        }
+        if (!taskRepository.existsById(taskId)) {
+            throw new NotExist("Task with this id doesn't exist");
+        }
+        taskRepository.deleteById(taskId);
+    }
+
 }

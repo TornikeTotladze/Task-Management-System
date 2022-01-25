@@ -32,10 +32,10 @@ public class TaskController {
     public ResponseEntity<List<Task>> getTasks(@RequestParam(name = "user-id") Long userId) {
         try {
             return new ResponseEntity<>(taskService.getTasks(userId), HttpStatus.ACCEPTED); // status code!!
-        } catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             e.printStackTrace();
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST); // status code!!
-        } catch (NotHavePermission e){
+        } catch (NotHavePermission e) {
             e.printStackTrace();
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST); // status code!!
         } catch (NotExist e) {
@@ -45,7 +45,7 @@ public class TaskController {
     }
 
     @GetMapping("/task/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable Long id, @RequestParam(name="user-id") Long userId) {
+    public ResponseEntity<Task> getTask(@PathVariable Long id, @RequestParam(name = "user-id") Long userId) {
         try {
             return new ResponseEntity<>(taskService.getTask(id, userId), HttpStatus.OK);
         } catch (MissedFieldException e) {
@@ -77,6 +77,23 @@ public class TaskController {
         }
     }
 
+    @DeleteMapping("/delete-task/{id}")
+    public ResponseEntity<String> deleteTask(@PathVariable(name = "id") Long taskId,
+                                             @RequestParam(name = "user-id") Long userId) {
+        try {
+            taskService.deleteTask(taskId,userId);
+            return new ResponseEntity<>("Task deleted successfully", HttpStatus.ACCEPTED); // status code!!
+        } catch (MissedFieldException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Task id and user id fields must not be empty", HttpStatus.BAD_REQUEST); // status code!!
+        } catch (NotHavePermission e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("User can't delete tasks", HttpStatus.BAD_REQUEST); // status code!!
+        } catch (NotExist e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Task with this id doesn't exist", HttpStatus.BAD_REQUEST); // status code!!
+        }
+    }
 }
 
 //    @RequestParam Long Id
