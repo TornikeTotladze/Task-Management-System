@@ -1,0 +1,74 @@
+### Roles ###
+
+### returns all existing roles
+GET http://localhost:8080/role
+
+### adds new role with the permissions below
+POST http://localhost:8080/role
+Content-Type: application/json
+
+{
+  "roleName": "Manager",
+  "taskSeePerm": "true",
+  "taskCreatePerm": "true",
+  "taskEditPerm": "true",
+  "taskDeletePerm": "false"
+}
+
+### deletes role with id = ?
+DELETE http://localhost:8080/role/3
+
+
+### Users ###
+
+### adds new user
+POST http://localhost:8080/user
+Content-Type: application/json
+
+{
+  "userName": "Bob",
+  "roleId": "2"
+}
+
+### returns all existing users
+GET http://localhost:8080/user
+
+### return user with id = ?
+GET http://localhost:8080/user/7
+
+### deletes user with id = ?
+DELETE http://localhost:8080/user/7
+
+
+### Tasks ###
+
+### user with user-id = ? adds new task with 'name' and
+### 'description' and assigns it to the user with 'currentUserId'
+POST http://localhost:8080/task?user-id=5
+Content-Type: application/json
+
+{
+  "name": "task1",
+  "description": "easy task",
+  "currentUserId": "6"
+}
+
+### user with user-id = ? tries to get all existing tasks to see them
+GET http://localhost:8080/task?user-id=6
+
+### user with user-id = ? tries to get task with task-id = ?
+GET http://localhost:8080/task/task-id=9?user-id=5
+
+
+### user with user-id = ? tries to delete task with task-id = ?
+DELETE http://localhost:8080/delete-task/task-id=9?user-id=5
+
+### user with user-id = ? tries to edit task with task-id = ?
+PUT http://localhost:8080/edit-task/task-id=8?user-id=5
+Content-Type: application/json
+
+{
+  "name": "task1",
+  "description": "medium task"
+}
+
