@@ -38,12 +38,6 @@ public class Task {
         this.shortDescription = shortDescription;
     }
 
-    public Task(User creatorUser, User currentUser, String taskName) {
-        this.currentUser = currentUser;
-        this.creatorUser = creatorUser;
-        this.taskName = taskName;
-    }
-
     @Override
     public String toString() {
         return "Task{" +

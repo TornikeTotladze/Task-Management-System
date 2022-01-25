@@ -67,13 +67,13 @@ public class TaskController {
             return new ResponseEntity<>("Task added successfully", HttpStatus.ACCEPTED); // status code!!
         } catch (MissedFieldException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Enter task name and user id", HttpStatus.CONFLICT); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT); // status code!!
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>("User with this id doesn't exist", HttpStatus.NO_CONTENT); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT); // status code!!
         } catch (NotHavePermission e) {
             e.printStackTrace();
-            return new ResponseEntity<>("User can't create task", HttpStatus.NO_CONTENT); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT); // status code!!
         }
     }
 
@@ -81,18 +81,23 @@ public class TaskController {
     public ResponseEntity<String> deleteTask(@PathVariable(name = "id") Long taskId,
                                              @RequestParam(name = "user-id") Long userId) {
         try {
-            taskService.deleteTask(taskId,userId);
+            taskService.deleteTask(taskId, userId);
             return new ResponseEntity<>("Task deleted successfully", HttpStatus.ACCEPTED); // status code!!
         } catch (MissedFieldException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Task id and user id fields must not be empty", HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
         } catch (NotHavePermission e) {
             e.printStackTrace();
-            return new ResponseEntity<>("User can't delete tasks", HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Task with this id doesn't exist", HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
         }
+    }
+
+    @PutMapping("/edit-task/{id}")
+    public ResponseEntity<String> taskEditChangeName(@RequestBody String newName, @PathVariable String id) {
+
     }
 }
 

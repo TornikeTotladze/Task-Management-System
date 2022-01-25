@@ -69,11 +69,7 @@ public class TaskService {
         }
         User creatorUser = userRepository.getById(creatorUserId);
         User currentUser = userRepository.getById(taskDto.getCurrentUserId());
-        if (taskDto.getDescription() == null) {
-            taskRepository.save(new Task(creatorUser, currentUser, taskDto.getName()));
-        } else {
-            taskRepository.save(new Task(creatorUser, currentUser, taskDto.getName(), taskDto.getDescription()));
-        }
+        taskRepository.save(new Task(creatorUser, currentUser, taskDto.getName(), taskDto.getDescription()));
     }
 
     public void deleteTask(Long taskId, Long userId) throws MissedFieldException, NotHavePermission, NotExist {
@@ -90,6 +86,10 @@ public class TaskService {
             throw new NotExist("Task with this id doesn't exist");
         }
         taskRepository.deleteById(taskId);
+    }
+
+    public void editTaskChangeName(){
+
     }
 
 }

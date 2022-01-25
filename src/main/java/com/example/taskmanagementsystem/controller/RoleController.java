@@ -41,10 +41,10 @@ public class RoleController {
             return new ResponseEntity<>("Role saved successfully!", HttpStatus.CREATED); // statusCode!!
         } catch (MissedFieldException e){
             e.printStackTrace();
-            return new ResponseEntity<>("Enter role name", HttpStatus.BAD_REQUEST); // statusCode!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // statusCode!!
         } catch (AlreadyExistsException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Role with this name already exists", HttpStatus.BAD_REQUEST); // statusCode!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // statusCode!!
         }
     }
 
@@ -55,10 +55,10 @@ public class RoleController {
             return new ResponseEntity<>("Removed successfully", HttpStatus.OK);// statusCode!!
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>("No role with this id", HttpStatus.NOT_FOUND);// statusCode!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);// statusCode!!
         } catch (IllegalArgumentException e){
             e.printStackTrace();
-            return new ResponseEntity<>("Id is null", HttpStatus.NOT_FOUND);// statusCode!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);// statusCode!!
         }
     }
 }
