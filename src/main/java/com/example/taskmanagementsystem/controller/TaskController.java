@@ -31,7 +31,7 @@ public class TaskController {
     @GetMapping("/task")
     public ResponseEntity<List<Task>> getTasks(@RequestParam(name = "user-id") Long userId) {
         try {
-            return new ResponseEntity<>(taskService.getTasks(userId), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(taskService.getTasks(userId), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
@@ -66,16 +66,16 @@ public class TaskController {
                                           @RequestParam(name = "user-id") Long userId) {
         try {
             taskService.addTask(task, userId);
-            return new ResponseEntity<>("Task added successfully", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Task added successfully", HttpStatus.CREATED);
         } catch (MissedFieldException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (NotHavePermission e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
