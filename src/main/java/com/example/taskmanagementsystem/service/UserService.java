@@ -1,6 +1,8 @@
 package com.example.taskmanagementsystem.service;
 
 import com.example.taskmanagementsystem.Model.Dto.UserDto;
+import com.example.taskmanagementsystem.Model.Exception.MissedFieldException;
+import com.example.taskmanagementsystem.Model.Exception.NotExist;
 import com.example.taskmanagementsystem.entity.Role;
 import com.example.taskmanagementsystem.entity.User;
 import com.example.taskmanagementsystem.repository.RoleRepository;
@@ -21,20 +23,39 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public List<User> getUsers(){
-        return userRepository.findAll();
-    }
-
-    public void addUser(UserDto userDto){
-        Role role = roleRepository.getById(userDto.getRoleId());
-        userRepository.save(new User(userDto.getUserName(), role));
-    }
-
-    public User getUser(Long id){
-        if(!userRepository.existsById(id)){
-            return null;
+    public void addRole(UserDto userDto) throws MissedFieldException, NotExist {
+        if (userDto.getUserName() == null) {
+            throw new MissedFieldException("User name isn't specified");
         }
-        System.out.println("user can see tasks: "+userRepository.userCanSeeTasks(id));
-        return userRepository.getUserByUserId(id);
+        if (userDto.getRoleId() == null) {
+            throw new MissedFieldException("User role id isn't specified");
+        }
+        if(!roleRepository.existsById(userDto.getRoleId())){
+            throw new NotExist("Role with this id doesn't exist");
+        }
+        Role role = roleRepository.getRoleByRoleId(userDto.getRoleId());
+        userRepository.save(new User(userDto.getUserName(),role));
+    }
+
+    public List<User> getUsers() throws NotExist {
+        List<User> result = userRepository.findAll();
+        if(result.isEmpty()){
+            throw new NotExist("No users yet");
+        }
+        return result;
+    }
+
+    public User getUser(Long userId) throws NotExist {
+        if(!userRepository.existsById(userId)){
+            throw new NotExist("User with this id doesn't exist");
+        }
+        return userRepository.getUserByUserId(userId);
+    }
+
+    public void deleteUser(Long userId) throws NotExist {
+        if(!userRepository.existsById(userId)){
+            throw new NotExist("User with this id doesn't exist");
+        }
+        userRepository.deleteById(userId);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.taskmanagementsystem.entity;
 
+import com.example.taskmanagementsystem.Model.Dto.TaskDto;
+import com.example.taskmanagementsystem.Model.Dto.UserDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;

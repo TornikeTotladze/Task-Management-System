@@ -24,16 +24,6 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/roles")
-    public ResponseEntity<List<Role> > getRoles(){
-        try {
-            return new ResponseEntity<>(roleService.getRoles(), HttpStatus.OK);// statusCode!!
-        } catch (NotExist e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);// statusCode!!
-        }
-    }
-
     @PostMapping("/role")
     public ResponseEntity<String> addRole(@RequestBody Role role){
         try {
@@ -45,6 +35,16 @@ public class RoleController {
         } catch (AlreadyExistsException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // statusCode!!
+        }
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<List<Role> > getRoles(){
+        try {
+            return new ResponseEntity<>(roleService.getRoles(), HttpStatus.OK);// statusCode!!
+        } catch (NotExist e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);// statusCode!!
         }
     }
 

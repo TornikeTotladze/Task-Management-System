@@ -39,7 +39,8 @@ public class TaskService {
         return result;
     }
 
-    public Task getTask(Long taskId, Long userId) throws MissedFieldException, NotExist, NotHavePermission {
+    public Task getTask(Long taskId, Long userId)
+            throws MissedFieldException, NotExist, NotHavePermission {
         if (taskId == null || userId == null) {
             throw new MissedFieldException("ids must not be null");
         }
@@ -55,8 +56,8 @@ public class TaskService {
         return taskRepository.getTaskByTaskId(taskId);
     }
 
-    public void addTask(TaskDto taskDto, Long creatorUserId) throws MissedFieldException,
-            NotExist, NotHavePermission {
+    public void addTask(TaskDto taskDto, Long creatorUserId)
+            throws MissedFieldException, NotExist, NotHavePermission {
         if (taskDto.getName() == null || creatorUserId == null || taskDto.getCurrentUserId() == null) {
             throw new MissedFieldException("Missed necessary fields");
         }
@@ -72,7 +73,8 @@ public class TaskService {
         taskRepository.save(new Task(creatorUser, currentUser, taskDto.getName(), taskDto.getDescription()));
     }
 
-    public void deleteTask(Long taskId, Long userId) throws MissedFieldException, NotHavePermission, NotExist {
+    public void deleteTask(Long taskId, Long userId)
+            throws MissedFieldException, NotHavePermission, NotExist {
         if (taskId == null || userId == null) {
             throw new MissedFieldException("ids must not be null");
         }
@@ -88,8 +90,26 @@ public class TaskService {
         taskRepository.deleteById(taskId);
     }
 
-    public void editTaskChangeName(){
-
+    public void editTask(TaskDto taskDto, Long taskId, Long userId)
+            throws MissedFieldException, NotHavePermission, NotExist {
+        if (taskId == null || userId == null) {
+            throw new MissedFieldException("ids must not be null");
+        }
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User with this id doesn't exist");
+        }
+        if (!userRepository.userCanEditTasks(userId)) {
+            throw new NotHavePermission("User can't edit tasks");
+        }
+        if (!taskRepository.existsById(taskId)) {
+            throw new NotExist("Task with this id doesn't exist");
+        }
+        if (taskDto.getName() != null) {
+            taskRepository.changeTaskName(taskDto.getName(), taskId);
+        }
+        if (taskDto.getDescription() != null) {
+            taskRepository.changeTaskDescription(taskDto.getDescription(), taskId);
+        }
     }
 
 }

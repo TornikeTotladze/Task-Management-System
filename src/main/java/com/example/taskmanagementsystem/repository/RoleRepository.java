@@ -9,8 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.lang.annotation.Native;
 
 @Repository
-public interface RoleRepository extends JpaRepository <Role, Long>{
+public interface RoleRepository extends JpaRepository<Role, Long> {
 
-    public boolean existsByRoleName(String roleName);
-    public Role getRoleByRoleId(Long roleId);
+    boolean existsByRoleName(String roleName);
+
+    Role getRoleByRoleId(Long roleId);
 }

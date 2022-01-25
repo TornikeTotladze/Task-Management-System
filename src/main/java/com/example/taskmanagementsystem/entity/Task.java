@@ -2,6 +2,7 @@ package com.example.taskmanagementsystem.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -9,11 +10,18 @@ import javax.persistence.*;
 @Table
 @Setter
 @Getter
+@DynamicUpdate
 public class Task {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long taskId;
+
+    @Column(name = "task_name", updatable = true ,nullable = false)
+    private String taskName;
+
+    @Column(name = "task_description", updatable = true, nullable = true)
+    private String shortDescription;
 
     @ManyToOne
     @JoinColumn(name = "current_user_id")
@@ -22,12 +30,6 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "creator_user_id")
     private User creatorUser;
-
-    @Column(name = "task_name", nullable = false)
-    private String taskName;
-
-    @Column(name = "task_description", nullable = true)
-    private String shortDescription;
 
     public Task(){}
 

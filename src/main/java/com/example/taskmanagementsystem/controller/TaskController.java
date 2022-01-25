@@ -44,10 +44,11 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/task/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable Long id, @RequestParam(name = "user-id") Long userId) {
+    @GetMapping("/task/{task-id}")
+    public ResponseEntity<Task> getTask(@PathVariable(name = "task-id") Long taskId,
+                                        @RequestParam(name = "user-id") Long userId) {
         try {
-            return new ResponseEntity<>(taskService.getTask(id, userId), HttpStatus.OK);
+            return new ResponseEntity<>(taskService.getTask(taskId, userId), HttpStatus.OK);
         } catch (MissedFieldException e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -61,7 +62,8 @@ public class TaskController {
     }
 
     @PostMapping("/task")
-    public ResponseEntity<String> addTask(@RequestBody TaskDto task, @RequestParam(name = "user-id") Long userId) {
+    public ResponseEntity<String> addTask(@RequestBody TaskDto task,
+                                          @RequestParam(name = "user-id") Long userId) {
         try {
             taskService.addTask(task, userId);
             return new ResponseEntity<>("Task added successfully", HttpStatus.ACCEPTED); // status code!!
@@ -77,8 +79,8 @@ public class TaskController {
         }
     }
 
-    @DeleteMapping("/delete-task/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable(name = "id") Long taskId,
+    @DeleteMapping("/delete-task/{task-id}")
+    public ResponseEntity<String> deleteTask(@PathVariable(name = "task-id") Long taskId,
                                              @RequestParam(name = "user-id") Long userId) {
         try {
             taskService.deleteTask(taskId, userId);
@@ -95,10 +97,24 @@ public class TaskController {
         }
     }
 
-    @PutMapping("/edit-task/{id}")
-    public ResponseEntity<String> taskEditChangeName(@RequestBody String newName, @PathVariable String id) {
-
+    @PutMapping("/edit-task/{task-id}")
+    public ResponseEntity<String> taskEdit(@RequestBody TaskDto taskDto,
+                                           @PathVariable(name = "task-id") Long taskId,
+                                           @RequestParam(name = "user-id") Long userId) {
+        System.out.println("taskId: "+taskId+" userId: "+userId);
+        try {
+            taskService.editTask(taskDto, taskId, userId);
+            return new ResponseEntity<>("Task name edited successfully", HttpStatus.ACCEPTED); // status code!!
+        } catch (MissedFieldException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
+        } catch (NotHavePermission e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
+        } catch (NotExist e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
+        }
     }
-}
 
-//    @RequestParam Long Id
+}
