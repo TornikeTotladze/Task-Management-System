@@ -19,14 +19,14 @@ public class Configuration {
                                         TaskRepository taskRepository,
                                         RoleRepository roleRepository){
         return args -> {
-//            User alex = new User("Alex","developer");
-//            User levan = new User("Levan","developer");
-//            User vano = new User("Vano","Owner");
-//            userRepository.saveAll(List.of(alex,levan, vano));
-//            Role role1 = new Role("Owner",true,true,true,true);
-//            Role role2 = new Role("Developer",true,false,true,true);
-//            roleRepository.saveAll(List.of(role1,role2));
-//            System.out.println(roleRepository.findAll());
+            Role role1 = new Role("Owner",true,true,true,true);
+            Role role2 = new Role("Developer",true,false,true,true);
+            Role role3 = new Role("Tester", false, false, false,false);
+            roleRepository.saveAll(List.of(role1,role2,role3));
+            User alex = new User("Alex",roleRepository.getRoleByRoleId(3l));
+            User levan = new User("Levan",roleRepository.getRoleByRoleId(2l));
+            User vano = new User("Vano",roleRepository.getRoleByRoleId(1l));
+            userRepository.saveAll(List.of(alex, levan, vano));
         };
     }
 }

@@ -16,8 +16,12 @@ public class Task {
     private Long taskId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "current_user_id")
     private User currentUser;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_user_id")
+    private User creatorUser;
 
     @Column(name = "task_name", nullable = false)
     private String taskName;
@@ -27,15 +31,17 @@ public class Task {
 
     public Task(){}
 
-    public Task(User currentUser, String taskName) {
+    public Task(User creatorUser, User currentUser,  String taskName, String shortDescription) {
         this.currentUser = currentUser;
-        this.taskName = taskName;
-    }
-
-    public Task(User currentUser, String taskName, String shortDescription) {
-        this.currentUser = currentUser;
+        this.creatorUser = creatorUser;
         this.taskName = taskName;
         this.shortDescription = shortDescription;
+    }
+
+    public Task(User creatorUser, User currentUser, String taskName) {
+        this.currentUser = currentUser;
+        this.creatorUser = creatorUser;
+        this.taskName = taskName;
     }
 
     @Override

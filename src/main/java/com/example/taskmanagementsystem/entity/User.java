@@ -24,11 +24,14 @@ public class User {
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "currentUser")
     @JsonIgnore
-    private List<Task> tasks;
+    private List<Task> assignedTasks;
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "creatorUser")
+    @JsonIgnore
+    private List<Task> createdTasks;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-//    @Column(name = "user_role", nullable = false)
     private Role role;
 
     public User(){}

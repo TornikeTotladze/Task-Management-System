@@ -18,6 +18,11 @@ public class TaskDto {
         this.currentUserId = currentUserId;
     }
 
+    public TaskDto(String name, Long currentUserId) {
+        this.name = name;
+        this.currentUserId = currentUserId;
+    }
+
     @Override
     public String toString() {
         return "TaskDto{" +

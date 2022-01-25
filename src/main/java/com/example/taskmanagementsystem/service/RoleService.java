@@ -42,6 +42,6 @@ public class RoleService {
         if(!roleRepository.existsById(id)){
             throw new NotExist("No role with this id");
         }
-        roleRepository.delete(roleRepository.getById(id));
+        roleRepository.deleteById(id);
     }
 }

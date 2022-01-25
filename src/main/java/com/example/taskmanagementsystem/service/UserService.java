@@ -34,6 +34,7 @@ public class UserService {
         if(!userRepository.existsById(id)){
             return null;
         }
-        return userRepository.getById(id);
+        System.out.println("user can see tasks: "+userRepository.userCanSeeTasks(id));
+        return userRepository.getUserByUserId(id);
     }
 }

@@ -26,6 +26,11 @@ public class UserController {
         return result;
     }
 
+    @GetMapping("/user/{id}")
+    public User getUser(@PathVariable Long id){
+        return userService.getUser(id);
+    }
+
     @PostMapping("/user")
     public void addUser(@RequestBody UserDto userDto){
         log.info(userDto.toString());

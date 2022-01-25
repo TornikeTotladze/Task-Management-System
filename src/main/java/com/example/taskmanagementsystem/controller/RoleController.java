@@ -27,7 +27,7 @@ public class RoleController {
     @GetMapping("/roles")
     public ResponseEntity<List<Role> > getRoles(){
         try {
-            return new ResponseEntity<>(roleService.getRoles(), HttpStatus.ACCEPTED);// statusCode!!
+            return new ResponseEntity<>(roleService.getRoles(), HttpStatus.OK);// statusCode!!
         } catch (NotExist e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);// statusCode!!
@@ -38,13 +38,13 @@ public class RoleController {
     public ResponseEntity<String> addRole(@RequestBody Role role){
         try {
             roleService.addRole(role);
-            return new ResponseEntity<>("Role saved successfully!", HttpStatus.ACCEPTED); // statusCode!!
+            return new ResponseEntity<>("Role saved successfully!", HttpStatus.CREATED); // statusCode!!
         } catch (MissedFieldException e){
             e.printStackTrace();
-            return new ResponseEntity<>("Enter role name", HttpStatus.CONFLICT); // statusCode!!
+            return new ResponseEntity<>("Enter role name", HttpStatus.BAD_REQUEST); // statusCode!!
         } catch (AlreadyExistsException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Role with this name already exists", HttpStatus.CONFLICT); // statusCode!!
+            return new ResponseEntity<>("Role with this name already exists", HttpStatus.BAD_REQUEST); // statusCode!!
         }
     }
 
@@ -52,10 +52,13 @@ public class RoleController {
     public ResponseEntity<String> removeRole(@PathVariable Long id){
         try {
             roleService.removeRole(id);
-            return new ResponseEntity<>("Removed successfully", HttpStatus.ACCEPTED);// statusCode!!
+            return new ResponseEntity<>("Removed successfully", HttpStatus.OK);// statusCode!!
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>("No role with this id", HttpStatus.NO_CONTENT);// statusCode!!
+            return new ResponseEntity<>("No role with this id", HttpStatus.NOT_FOUND);// statusCode!!
+        } catch (IllegalArgumentException e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Id is null", HttpStatus.NOT_FOUND);// statusCode!!
         }
     }
 }
