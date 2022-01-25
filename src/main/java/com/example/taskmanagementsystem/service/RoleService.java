@@ -22,24 +22,24 @@ public class RoleService {
 
     public List<Role> getRoles() throws NotExist {
         List<Role> result = roleRepository.findAll();
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             throw new NotExist("No roles yet");
         }
         return result;
     }
 
     public void addRole(Role role) throws MissedFieldException, AlreadyExistsException {
-        if(role.getRoleName() == null){
+        if (role.getRoleName() == null) {
             throw new MissedFieldException("Specify role name");
         }
-        if(roleRepository.existsByRoleName(role.getRoleName())){
-            throw  new AlreadyExistsException("Role with this name already exists");
+        if (roleRepository.existsByRoleName(role.getRoleName())) {
+            throw new AlreadyExistsException("Role with this name already exists");
         }
         roleRepository.save(role);
     }
 
     public void removeRole(Long id) throws NotExist {
-        if(!roleRepository.existsById(id)){
+        if (!roleRepository.existsById(id)) {
             throw new NotExist("No role with this id");
         }
         roleRepository.deleteById(id);

@@ -25,40 +25,40 @@ public class RoleController {
     }
 
     @PostMapping("/role")
-    public ResponseEntity<String> addRole(@RequestBody Role role){
+    public ResponseEntity<String> addRole(@RequestBody Role role) {
         try {
             roleService.addRole(role);
-            return new ResponseEntity<>("Role saved successfully!", HttpStatus.CREATED); // statusCode!!
-        } catch (MissedFieldException e){
+            return new ResponseEntity<>("Role saved successfully!", HttpStatus.CREATED);
+        } catch (MissedFieldException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // statusCode!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (AlreadyExistsException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // statusCode!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/roles")
-    public ResponseEntity<List<Role> > getRoles(){
+    @GetMapping("/role")
+    public ResponseEntity<List<Role>> getRoles() {
         try {
-            return new ResponseEntity<>(roleService.getRoles(), HttpStatus.OK);// statusCode!!
+            return new ResponseEntity<>(roleService.getRoles(), HttpStatus.OK);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);// statusCode!!
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
     }
 
-    @DeleteMapping("/remove-role/{id}")
-    public ResponseEntity<String> removeRole(@PathVariable Long id){
+    @DeleteMapping("/role/{id}")
+    public ResponseEntity<String> removeRole(@PathVariable Long id) {
         try {
             roleService.removeRole(id);
-            return new ResponseEntity<>("Removed successfully", HttpStatus.OK);// statusCode!!
+            return new ResponseEntity<>("Removed successfully", HttpStatus.OK);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);// statusCode!!
-        } catch (IllegalArgumentException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);// statusCode!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }

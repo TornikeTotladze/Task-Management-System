@@ -1,4 +1,5 @@
 package com.example.taskmanagementsystem.Model.Dto;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,8 @@ public class TaskDto {
     private String description;
     private Long currentUserId;
 
-    public TaskDto(){}
+    public TaskDto() {
+    }
 
     public TaskDto(String name, String description, Long currentUserId) {
         this.name = name;

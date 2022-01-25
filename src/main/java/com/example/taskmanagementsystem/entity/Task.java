@@ -14,10 +14,10 @@ import javax.persistence.*;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long taskId;
 
-    @Column(name = "task_name", updatable = true ,nullable = false)
+    @Column(name = "task_name", updatable = true, nullable = false)
     private String taskName;
 
     @Column(name = "task_description", updatable = true, nullable = true)
@@ -31,9 +31,10 @@ public class Task {
     @JoinColumn(name = "creator_user_id")
     private User creatorUser;
 
-    public Task(){}
+    public Task() {
+    }
 
-    public Task(User creatorUser, User currentUser,  String taskName, String shortDescription) {
+    public Task(User creatorUser, User currentUser, String taskName, String shortDescription) {
         this.currentUser = currentUser;
         this.creatorUser = creatorUser;
         this.taskName = taskName;
@@ -46,7 +47,7 @@ public class Task {
                 "taskId=" + taskId +
                 ", taskName='" + taskName + '\'' +
                 ", shortDescription='" + shortDescription + '\'' +
-                ", current user= "+ currentUser.getName() + '\'' +
+                ", current user= " + currentUser.getName() + '\'' +
                 '}';
     }
 }

@@ -1,4 +1,5 @@
 package com.example.taskmanagementsystem.entity;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,14 +14,16 @@ import java.util.List;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id")
     private Long roleId;
 
     @Column(name = "role_name", nullable = false, unique = true)
     private String roleName;
 
-    /** Permissions */
+    /**
+     * Permissions
+     */
     @Column(name = "task_see")
     private Boolean taskSeePerm;
 
@@ -32,7 +35,9 @@ public class Role {
 
     @Column(name = "task_delete")
     private Boolean taskDeletePerm;
-    /** end of Permissions */
+    /**
+     * end of Permissions
+     */
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "role")
     @JsonIgnore

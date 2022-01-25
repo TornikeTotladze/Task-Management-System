@@ -30,30 +30,30 @@ public class UserService {
         if (userDto.getRoleId() == null) {
             throw new MissedFieldException("User role id isn't specified");
         }
-        if(!roleRepository.existsById(userDto.getRoleId())){
+        if (!roleRepository.existsById(userDto.getRoleId())) {
             throw new NotExist("Role with this id doesn't exist");
         }
         Role role = roleRepository.getRoleByRoleId(userDto.getRoleId());
-        userRepository.save(new User(userDto.getUserName(),role));
+        userRepository.save(new User(userDto.getUserName(), role));
     }
 
     public List<User> getUsers() throws NotExist {
         List<User> result = userRepository.findAll();
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             throw new NotExist("No users yet");
         }
         return result;
     }
 
     public User getUser(Long userId) throws NotExist {
-        if(!userRepository.existsById(userId)){
+        if (!userRepository.existsById(userId)) {
             throw new NotExist("User with this id doesn't exist");
         }
         return userRepository.getUserByUserId(userId);
     }
 
     public void deleteUser(Long userId) throws NotExist {
-        if(!userRepository.existsById(userId)){
+        if (!userRepository.existsById(userId)) {
             throw new NotExist("User with this id doesn't exist");
         }
         userRepository.deleteById(userId);

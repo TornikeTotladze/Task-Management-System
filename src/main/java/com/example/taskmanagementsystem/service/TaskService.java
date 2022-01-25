@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -90,6 +91,7 @@ public class TaskService {
         taskRepository.deleteById(taskId);
     }
 
+    @Transactional
     public void editTask(TaskDto taskDto, Long taskId, Long userId)
             throws MissedFieldException, NotHavePermission, NotExist {
         if (taskId == null || userId == null) {

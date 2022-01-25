@@ -28,23 +28,23 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("/task")
     public ResponseEntity<List<Task>> getTasks(@RequestParam(name = "user-id") Long userId) {
         try {
-            return new ResponseEntity<>(taskService.getTasks(userId), HttpStatus.ACCEPTED); // status code!!
+            return new ResponseEntity<>(taskService.getTasks(userId), HttpStatus.ACCEPTED);
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
         } catch (NotHavePermission e) {
             e.printStackTrace();
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/task/{task-id}")
+    @GetMapping("/task/task-id={task-id}")
     public ResponseEntity<Task> getTask(@PathVariable(name = "task-id") Long taskId,
                                         @RequestParam(name = "user-id") Long userId) {
         try {
@@ -66,54 +66,54 @@ public class TaskController {
                                           @RequestParam(name = "user-id") Long userId) {
         try {
             taskService.addTask(task, userId);
-            return new ResponseEntity<>("Task added successfully", HttpStatus.ACCEPTED); // status code!!
+            return new ResponseEntity<>("Task added successfully", HttpStatus.ACCEPTED);
         } catch (MissedFieldException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
         } catch (NotHavePermission e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
         }
     }
 
-    @DeleteMapping("/delete-task/{task-id}")
+    @DeleteMapping("/delete-task/task-id={task-id}")
     public ResponseEntity<String> deleteTask(@PathVariable(name = "task-id") Long taskId,
                                              @RequestParam(name = "user-id") Long userId) {
         try {
             taskService.deleteTask(taskId, userId);
-            return new ResponseEntity<>("Task deleted successfully", HttpStatus.ACCEPTED); // status code!!
+            return new ResponseEntity<>("Task deleted successfully", HttpStatus.ACCEPTED);
         } catch (MissedFieldException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (NotHavePermission e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/edit-task/{task-id}")
+    @PutMapping("/edit-task/task-id={task-id}")
     public ResponseEntity<String> taskEdit(@RequestBody TaskDto taskDto,
                                            @PathVariable(name = "task-id") Long taskId,
                                            @RequestParam(name = "user-id") Long userId) {
-        System.out.println("taskId: "+taskId+" userId: "+userId);
+        System.out.println("taskId: " + taskId + " userId: " + userId);
         try {
             taskService.editTask(taskDto, taskId, userId);
-            return new ResponseEntity<>("Task name edited successfully", HttpStatus.ACCEPTED); // status code!!
+            return new ResponseEntity<>("Task name edited successfully", HttpStatus.ACCEPTED);
         } catch (MissedFieldException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (NotHavePermission e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // status code!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

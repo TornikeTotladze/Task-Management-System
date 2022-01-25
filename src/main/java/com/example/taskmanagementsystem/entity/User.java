@@ -17,7 +17,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private Long userId;
 
@@ -36,7 +36,8 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    public User(){}
+    public User() {
+    }
 
     public User(String name, Role role) {
         this.name = name;

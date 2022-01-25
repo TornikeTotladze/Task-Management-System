@@ -27,13 +27,13 @@ public class UserController {
     ResponseEntity<String> addUser(@RequestBody UserDto userDto) {
         try {
             userService.addRole(userDto);
-            return new ResponseEntity<>("User saved successfully!", HttpStatus.CREATED); // statusCode!!
+            return new ResponseEntity<>("User saved successfully!", HttpStatus.CREATED);
         } catch (MissedFieldException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // statusCode!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // statusCode!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -43,7 +43,7 @@ public class UserController {
             return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST); // statusCode!!
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -53,7 +53,7 @@ public class UserController {
             return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST); // statusCode!!
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -61,10 +61,10 @@ public class UserController {
     ResponseEntity<String> deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
-            return new ResponseEntity<>("User removed successfully!", HttpStatus.CREATED); // statusCode!!
+            return new ResponseEntity<>("User removed successfully!", HttpStatus.CREATED);
         } catch (NotExist e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // statusCode!!
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
